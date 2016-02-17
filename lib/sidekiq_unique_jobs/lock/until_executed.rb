@@ -33,6 +33,7 @@ module SidekiqUniqueJobs
 
       # rubocop:disable MethodLength
       def lock(scope)
+        debugger
         if scope.to_sym != :client
           raise ArgumentError, "#{scope} middleware can't #{__method__} #{unique_key}"
         end

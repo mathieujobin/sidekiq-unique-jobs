@@ -63,5 +63,14 @@ module SidekiqUniqueJobs
     def script_path(file_name)
       LUA_PATHNAME.join("#{file_name}.lua")
     end
+
+    def redis(redis_pool = nil)
+      if redis_pool
+        redis_pool.with { |conn| yield conn }
+      else
+        Sidekiq.redis { |conn| yield conn }
+      end
+    end
+
   end
 end

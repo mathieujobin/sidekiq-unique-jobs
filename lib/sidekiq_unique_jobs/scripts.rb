@@ -31,10 +31,20 @@ module SidekiqUniqueJobs
     end
 
     def internal_call(file_name, redis_pool, options = {})
-      connection(redis_pool) do |conn|
-        SCRIPT_SHAS[file_name] = conn.script(:load, script_source(file_name)) if SCRIPT_SHAS[file_name].nil?
-        conn.evalsha(SCRIPT_SHAS[file_name], options)
+      redis(redis_pool) do |conn|
+        sha = script_sha(conn, file_name)
+        conn.evalsha(sha, options)
       end
+    end
+
+    def script_sha(conn, file_name)
+      if (sha = SCRIPT_SHAS.get(file_name))
+        return sha
+      end
+
+      sha = conn.script(:load, script_source(file_name))
+      SCRIPT_SHAS.put(file_name, sha)
+      sha
     end
 
     def handle_error(ex, file_name, redis_pool, options = {})

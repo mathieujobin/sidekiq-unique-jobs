@@ -12,8 +12,9 @@ script:
   - bundle exec rspec spec
   - if [[ "${STYLE}" = "true" ]]; then CODECLIMATE_REPO_TOKEN=88e524e8f638efe690def7a6e2c72b1a9db5cdfa74548921b734d609a5858ee5 bundle exec codeclimate-test-reporter; fi;
 rvm:
-  - 2.4.1
-  - 2.3.2
+  - 2.5.3
+  - 2.4.5
+  - 2.3.8
   - jruby-9.1.8.0
 env: STYLE=false
 gemfile:

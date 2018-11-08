@@ -8,7 +8,7 @@ gem "rspec-wait", :require => false
 gem "sidekiq", :github => "mperham/sidekiq"
 gem "concurrent-ruby", ">= 1.0.5"
 
-platforms :mri_24 do
+platforms :mri_24, :mri_25 do
   gem "benchmark-ips", :require => false
   gem "codeclimate-test-reporter", :require => false
   gem "fasterer", :require => false
